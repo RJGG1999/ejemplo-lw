@@ -29,7 +29,7 @@ Route::middleware([
 
 Route::get('bienvenida',function() {
     return view('bienvenida');
-});
+})->middleware('auth');
 
 Route::get('contacto',function() {
     return view('contacto');
