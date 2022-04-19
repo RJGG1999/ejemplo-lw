@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Tarea;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TareaController extends Controller
 {
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except('index','show');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +19,9 @@ class TareaController extends Controller
      */
     public function index()
     {
-        //
+        //$tareas = Tarea::all();
+        $tareas = Auth::user()->tareas;
+        return view('tareas.indexTareas', compact('tareas'));
     }
 
     /**
@@ -28,7 +31,7 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
+        return view('tareas.formTareas');
     }
 
     /**
@@ -39,7 +42,31 @@ class TareaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'tarea' => 'required|min:5|max:255',
+            'descripcion' => ['required','min:5'],
+            'tipo' => 'required',
+        ]);
+
+        /*Forma 1: para usar con autenticación con usuarios
+        $tarea = new Tarea();
+        $tarea->user_id = Auth::id();
+        $tarea->tarea = $request->tarea;
+        $tarea->descripcion = $request->descripcion;
+        $tarea->tipo = $request->tipo;
+        $tarea->save();*/
+
+        /*Forma 2: No es obligatoria la autenticación con usuarios
+        $user = Auth::user();
+        $user->tareas()->save($tarea);*/
+
+        /*Forma 3: Usando un arreglo, si necesidad de poner save al
+        final. Requiere agrega fillable en el modelo*/
+        $request->merge(['user_id' => Auth::id()]);
+        $tarea = Tarea::create($request->all());
+
+
+        return redirect('/tarea');
     }
 
     /**
@@ -50,7 +77,7 @@ class TareaController extends Controller
      */
     public function show(Tarea $tarea)
     {
-        //
+        return view('tareas.showTarea',compact('tarea'));
     }
 
     /**
@@ -61,7 +88,7 @@ class TareaController extends Controller
      */
     public function edit(Tarea $tarea)
     {
-        //
+        return view('tareas.formTareas',compact('tarea'));
     }
 
     /**
@@ -73,7 +100,20 @@ class TareaController extends Controller
      */
     public function update(Request $request, Tarea $tarea)
     {
-        //
+        $request->validate([
+            'tarea' => 'required|min:5|max:255',
+            'descripcion' => ['required','min:5'],
+            'tipo' => 'required',
+        ]);
+
+        Tarea::where('id', $tarea->id)->update($request->except(['_token', '_method']));
+
+        /*$tarea->tarea = $request->tarea;
+        $tarea->descripcion = $request->descripcion;
+        $tarea->tipo = $request->tipo;
+        $tarea->save();*/
+
+        return redirect('/tarea');
     }
 
     /**
@@ -84,6 +124,7 @@ class TareaController extends Controller
      */
     public function destroy(Tarea $tarea)
     {
-        //
+        $tarea->delete();
+        return redirect('/tarea');
     }
 }
