@@ -28,7 +28,8 @@
 
         @csrf
         <label for="tarea">Nombre de la tarea:</label><br>
-        <input type="text" name="tarea" value="{{ isset($tarea) ? $tarea->tarea : '' }}{{ old('tarea') }}"><br><br>
+        <input type="text" name="tarea" value="{{ isset($tarea) ? $tarea->tarea : '' }}{{ old('tarea') }}">
+        <br><br>
         {{-- Específica para cada campo --}}
         @error('tarea')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -38,20 +39,23 @@
         <textarea name="descripcion" id="descripcion" cols="10" rows="5">
             {{ isset($tarea) ? $tarea->descripcion : '' }}{{ old('descripcion') }}
         </textarea><br><br>
+
         <label for="tipo">Tipo:</label><br>
         <select name="tipo" id="tipo">
             <option value="Escuela" {{ isset($tarea) && $tarea->tipo == 'Escuela' ? 'selected' : '' }}>Escuela</option>
             <option value="Trabajo" {{ isset($tarea) && $tarea->tipo == 'Trabajo' ? 'selected' : '' }}>Trabajo</option>
             <option value="Otra" {{ isset($tarea) && $tarea->tipo == 'Otra' ? 'selected' : '' }}>Otra</option>
         </select>
+        <br><br>
 
-        <select name="etiqueta_id">
+        <label for="etiqueta_id">Prioridad:</label><br>
+        <select name="etiqueta_id[]" multiple>
             @foreach ($etiquetas as $etiqueta)
-                <option value="">{{ $etiqueta->etiqueta }}</option>
+                <option value="{{ $etiqueta->id }}" {{ isset($tarea) && array_search($etiqueta->id, $tarea->etiquetas->pluck('id')->toArray()) !== false ? 'selected' : '' }}>{{ $etiqueta->etiqueta }}</option>
             @endforeach
         </select>
-
         <br><br>
+
         <input type="submit" value="Guardar">
     </form>
 </body>

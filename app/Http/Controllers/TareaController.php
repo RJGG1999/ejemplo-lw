@@ -48,6 +48,7 @@ class TareaController extends Controller
             'tarea' => 'required|min:5|max:255',
             'descripcion' => ['required','min:5'],
             'tipo' => 'required',
+            'etiqueta_id' => 'required',
         ]);
 
         /*Forma 1: para usar con autenticación con usuarios
@@ -64,9 +65,11 @@ class TareaController extends Controller
 
         /*Forma 3: Usando un arreglo, si necesidad de poner save al
         final. Requiere agrega fillable en el modelo*/
-        $request->merge(['user_id' => Auth::id()]);
+        $request->merge([
+            'user_id' => Auth::id()
+        ]);
         $tarea = Tarea::create($request->all());
-
+        $tarea->etiquetas()->attach($request->etiqueta_id);
 
         return redirect('/tarea');
     }
@@ -90,7 +93,8 @@ class TareaController extends Controller
      */
     public function edit(Tarea $tarea)
     {
-        return view('tareas.formTareas',compact('tarea'));
+        $etiquetas = Etiqueta::all();
+        return view('tareas.formTareas',compact('tarea', 'etiquetas'));
     }
 
     /**
@@ -108,7 +112,9 @@ class TareaController extends Controller
             'tipo' => 'required',
         ]);
 
-        Tarea::where('id', $tarea->id)->update($request->except(['_token', '_method']));
+        Tarea::where('id', $tarea->id)->update($request->except(['_token', '_method', 'etiqueta_id']));
+
+        $tarea->etiquetas()->sync($request->etiqueta_id);
 
         /*$tarea->tarea = $request->tarea;
         $tarea->descripcion = $request->descripcion;

@@ -19,6 +19,7 @@
             <th>Tarea</th>
             <th>Descripcion</th>
             <th>Tipo</th>
+            <th>Prioridad</th>
             <th>Acciones</th>
         </tr>
         @foreach($tareas as $tarea)
@@ -28,6 +29,11 @@
                 <td>{{ $tarea->tarea }}</td>
                 <td>{{ $tarea->descripcion }}</td>
                 <td>{{ $tarea->tipo }}</td>
+                <td>
+                    @foreach ($tarea->etiquetas as $etiqueta)
+                        {{ $etiqueta->etiqueta }} <br>
+                    @endforeach
+                </td>
                 <td>
                     <a href="tarea/{{ $tarea->id }}">Ver detalles</a>
                     <a href="tarea/{{ $tarea->id }}/edit">Editar</a>

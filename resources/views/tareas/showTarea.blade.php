@@ -17,12 +17,18 @@
             <th>Tarea</th>
             <th>Descripcion</th>
             <th>Tipo</th>
+            <th>Prioridad</th>
         </tr>
         <tr>
             <td>{{ $tarea->id }}</td>
             <td>{{ $tarea->tarea }}</td>
             <td>{{ $tarea->descripcion }}</td>
             <td>{{ $tarea->tipo }}</td>
+            <td>
+                @foreach ($tarea->etiquetas as $etiqueta)
+                    {{ $etiqueta->etiqueta }} <br>
+                @endforeach
+            </td>
         </tr>
     </table>
 </body>
