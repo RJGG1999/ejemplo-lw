@@ -14,4 +14,9 @@ class Tarea extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function etiquetas()
+    {
+        return $this->belongsToMany(Etiqueta::class);
+    }
 }

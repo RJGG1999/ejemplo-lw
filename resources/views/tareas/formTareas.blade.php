@@ -44,6 +44,13 @@
             <option value="Trabajo" {{ isset($tarea) && $tarea->tipo == 'Trabajo' ? 'selected' : '' }}>Trabajo</option>
             <option value="Otra" {{ isset($tarea) && $tarea->tipo == 'Otra' ? 'selected' : '' }}>Otra</option>
         </select>
+
+        <select name="etiqueta_id">
+            @foreach ($etiquetas as $etiqueta)
+                <option value="">{{ $etiqueta->etiqueta }}</option>
+            @endforeach
+        </select>
+
         <br><br>
         <input type="submit" value="Guardar">
     </form>

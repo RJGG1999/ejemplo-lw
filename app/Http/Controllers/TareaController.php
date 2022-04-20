@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Etiqueta;
 use App\Models\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,8 @@ class TareaController extends Controller
      */
     public function create()
     {
-        return view('tareas.formTareas');
+        $etiquetas = Etiqueta::all();
+        return view('tareas.formTareas', compact('etiquetas'));
     }
 
     /**
