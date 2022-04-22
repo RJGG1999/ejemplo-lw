@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tarea::class);
     }
+
+    public function domicilio()
+    {
+        return $this->hasOne(Domicilio::class);
+    }
 }

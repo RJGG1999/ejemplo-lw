@@ -20,8 +20,11 @@ class TareaController extends Controller
      */
     public function index()
     {
-        //$tareas = Tarea::all();
-        $tareas = Auth::user()->tareas;
+        $tareas = Tarea::with('etiquetas')
+            ->with('user: name')
+            ->with('user.domicilio')
+            ->get();
+        //$tareas = Auth::user()->tareas;
         return view('tareas.indexTareas', compact('tareas'));
     }
 

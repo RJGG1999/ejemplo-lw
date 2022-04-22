@@ -20,6 +20,7 @@
             <th>Descripcion</th>
             <th>Tipo</th>
             <th>Prioridad</th>
+            <th>Domicilio</th>
             <th>Acciones</th>
         </tr>
         @foreach($tareas as $tarea)
@@ -34,6 +35,7 @@
                         {{ $etiqueta->etiqueta }} <br>
                     @endforeach
                 </td>
+                <td>{{ $tarea->user->domicilio->domicilio ?? 'Sin domicilio' }}</td>
                 <td>
                     <a href="tarea/{{ $tarea->id }}">Ver detalles</a>
                     <a href="tarea/{{ $tarea->id }}/edit">Editar</a>
