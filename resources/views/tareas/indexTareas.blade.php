@@ -10,6 +10,14 @@
 <body>
     <h1>Listado de tareas</h1>
 
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <a href="{{ route('logout') }}"
+            onclick="event.preventDefault();
+            this.closest('form').submit();">
+            Salir
+        </a>
+    </form>
     <a href="/tarea/create/">Agregar nueva tarea</a><br><br>
 
     <table border="1">
