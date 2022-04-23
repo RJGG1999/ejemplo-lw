@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -67,5 +68,19 @@ class User extends Authenticatable
     public function domicilio()
     {
         return $this->hasOne(Domicilio::class);
+    }
+
+    /*protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => strtoupper($value),
+        );
+    }*/
+
+    protected function nombreCorreo(): Attribute //Atributo/columna que no existe
+    {
+        return Attribute::make(
+            get: fn () => ($this->name). " (". $this->email. ")", //Cocatenación de correo y nombre
+        );
     }
 }

@@ -20,8 +20,8 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $tareas = Tarea::with('etiquetas')
-            ->with('user: name')
+        $tareas = Tarea::trabajo()->with('etiquetas')
+            ->with('user: id, name, email')
             ->with('user.domicilio')
             ->get();
         //$tareas = Auth::user()->tareas;

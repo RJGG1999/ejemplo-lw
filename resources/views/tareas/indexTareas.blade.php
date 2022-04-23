@@ -34,7 +34,7 @@
         @foreach($tareas as $tarea)
             <tr>
                 <td>{{ $tarea->id }}</td>
-                <td>{{ $tarea->user->name }}</td>
+                <td>{{ $tarea->user->nombre_correo }}</td>
                 <td>{{ $tarea->tarea }}</td>
                 <td>{{ $tarea->descripcion }}</td>
                 <td>{{ $tarea->tipo }}</td>
