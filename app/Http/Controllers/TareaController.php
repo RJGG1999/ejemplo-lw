@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Reporte;
+use App\Mail\ReporteMd;
 use App\Models\Etiqueta;
 use App\Models\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class TareaController extends Controller
 {
@@ -137,5 +140,10 @@ class TareaController extends Controller
     {
         $tarea->delete();
         return redirect('/tarea');
+    }
+
+    public function enviarReporte(){
+        Mail::to(Auth::user()->email)->send(new ReporteMd());
+        return redirect()->back();
     }
 }

@@ -30,10 +30,14 @@ Route::middleware([
 
 Route::resource('tarea',TareaController::class);
 
-Route::get('bienvenida',function() {
-    return view('bienvenida');
-})->middleware('auth');
+Route::middleware(['verified'])->group(function () {
+    Route::get('bienvenida',function() {
+        return view('bienvenida');
+    });
 
-Route::get('contacto',function() {
-    return view('contacto');
+    Route::get('contacto',function() {
+        return view('contacto');
+    });
 });
+
+Route::get('enviar-reporte', [TareaController::class, 'enviarReporte']);

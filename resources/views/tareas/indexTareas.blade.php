@@ -19,6 +19,7 @@
         </a>
     </form>
     <a href="/tarea/create/">Agregar nueva tarea</a><br><br>
+    <a href="/enviar-reporte">Enviar correo con Reporte de Tareas</a><br><br>
 
     <table border="1">
         <tr>
